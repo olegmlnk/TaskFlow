@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using TaskFlow.DataAccess.Data;
 
 namespace TaskFlow
 {
@@ -8,27 +11,44 @@ namespace TaskFlow
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
-            builder.Services.AddControllers();
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();
-
-            var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen(options =>
             {
-                app.MapOpenApi();
-            }
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "TaskFlow",
+                    Version = "v1"
+                });
+            });
 
-            app.UseHttpsRedirection();
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            app.UseAuthorization();
+                builder.Services.AddControllers();
+                // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+                builder.Services.AddOpenApi();
+
+                var app = builder.Build();
+
+                // Configure the HTTP request pipeline.
+                if (app.Environment.IsDevelopment())
+                {
+                    app.MapOpenApi();
+                    app.UseSwagger();
+                    app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "TaskFlow v1");
+                });
+                }
+
+                app.UseHttpsRedirection();
+
+                app.UseAuthorization();
 
 
-            app.MapControllers();
+                app.MapControllers();
 
-            app.Run();
-        }
+                app.Run();
+    }
     }
 }
