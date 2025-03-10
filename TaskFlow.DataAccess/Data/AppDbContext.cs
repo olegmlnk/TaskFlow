@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TaskFlow.Application.Configurations;
 using TaskFlow.Application.Entities;
 
 namespace TaskFlow.DataAccess.Data
@@ -9,5 +10,10 @@ namespace TaskFlow.DataAccess.Data
         {
         }
         public DbSet<TaskEntity> Tasks { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder configurationBuilder)
+        {
+            configurationBuilder.ApplyConfiguration(new TaskConfiguration());
+        }
     }
 }
