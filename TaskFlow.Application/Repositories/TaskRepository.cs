@@ -1,4 +1,5 @@
-﻿using TaskFlow.Application.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using TaskFlow.Application.Entities;
 using TaskFlow.Core.Abstractions;
 using TaskFlow.Core.Models;
 using TaskFlow.DataAccess.Data; 
@@ -25,30 +26,55 @@ namespace TaskFlow.Application.Repositories
                 Priority = task.Priority
             };
 
-            _context.Tasks.Add(taskEntity);
+            await _context.Tasks.AddAsync(taskEntity);
             await _context.SaveChangesAsync();
 
-            return taskEntity.Id;
+            return task.Id;
         }
 
         public async Task<Guid> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            await _context.Tasks
+                .Where(t => t.Id == id)
+                .ExecuteDeleteAsync();
+
+            return id;
         }
 
-        public async Task<List<TaskModel>> GetAllAsync()
+        public async Task<List<TaskModel>> GetAllTasks()
         {
-            throw new NotImplementedException();
+            var taskEntities = await _context.Tasks
+                .AsNoTracking()
+                .ToListAsync();
+
+            var tasks = taskEntities
+                .Select(t => TaskModel.Create(t.Id, t.Title, t.Description, t.Status, t.Priority).TaskModel)
+                .ToList();
+
+            return tasks;
         }
 
-        public async Task<Guid> GetByIdAsync(Guid id)
+        public async Task<Guid> GetTaskById(Guid id)
         {
-            throw new NotImplementedException();
+            var task = await _context.Tasks.FindAsync(id);
+
+            if(task == null)
+                throw new KeyNotFoundException("Task not found");
+
+            return task.Id;
         }
 
-        public async Task<Guid> UpdateAsync(Guid id, string title, string description, string status, string priority)
+        public async Task<Guid> UpdateTask(Guid id, string title, string description, string status, string priority)
         {
-            throw new NotImplementedException();
+            await _context.Tasks
+                .Where(t => t.Id == id)
+                .ExecuteUpdateAsync(x => x 
+                .SetProperty(x => x.Title, x => title)
+                .SetProperty(x => x.Description, x => description)
+                .SetProperty(x => x.Status, x => status)
+                .SetProperty(x => x.Priority, x => priority));
+
+            return id;
         }
     }
 }
