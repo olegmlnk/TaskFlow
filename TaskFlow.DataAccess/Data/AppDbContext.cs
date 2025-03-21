@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TaskFlow.Application.Configurations;
+using TaskFlow.DataAccess.Configurations;
 using TaskFlow.DataAccess.Entities;
 
 namespace TaskFlow.DataAccess.Data

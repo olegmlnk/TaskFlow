@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TaskFlow.Application.Entities;
+using TaskFlow.DataAccess.Entities;
 
-namespace TaskFlow.Application.Configurations
+namespace TaskFlow.DataAccess.Configurations
 {
     public class TaskConfiguration : IEntityTypeConfiguration<TaskEntity>
     {
