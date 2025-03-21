@@ -1,4 +1,4 @@
-﻿namespace TaskFlow.Application.Entities
+﻿namespace TaskFlow.DataAccess.Entities
 {
     public class TaskEntity
     {

@@ -1,16 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TaskFlow.Application.Entities;
 using TaskFlow.Core.Abstractions;
 using TaskFlow.Core.Models;
-using TaskFlow.DataAccess.Data; 
+using TaskFlow.DataAccess.Data;
+using TaskFlow.DataAccess.Entities;
 
-namespace TaskFlow.Application.Repositories
+namespace TaskFlow.DataAccess.Repositories
 {
     public class TaskRepository : ITaskRepository
     {
         private readonly AppDbContext _context;
 
-        public TaskRepository(AppDbContext context) 
+        public TaskRepository(AppDbContext context)
         {
             _context = context;
         }
@@ -37,7 +37,7 @@ namespace TaskFlow.Application.Repositories
             await _context.Tasks
                 .Where(t => t.Id == id)
                 .ExecuteDeleteAsync();
-
+            
             return id;
         }
 
@@ -48,7 +48,7 @@ namespace TaskFlow.Application.Repositories
                 .ToListAsync();
 
             var tasks = taskEntities
-                .Select(t => TaskModel.Create(t.Id, t.Title, t.Description, t.Status, t.Priority).TaskModel)
+                .Select(t => TaskModel.Create(t.Id, t.Title, t.Description, t.Status, t.Priority).task)
                 .ToList();
 
             return tasks;
@@ -58,7 +58,7 @@ namespace TaskFlow.Application.Repositories
         {
             var task = await _context.Tasks.FindAsync(id);
 
-            if(task == null)
+            if (task == null)
                 throw new KeyNotFoundException("Task not found");
 
             return task.Id;
@@ -68,7 +68,7 @@ namespace TaskFlow.Application.Repositories
         {
             await _context.Tasks
                 .Where(t => t.Id == id)
-                .ExecuteUpdateAsync(x => x 
+                .ExecuteUpdateAsync(x => x
                 .SetProperty(x => x.Title, x => title)
                 .SetProperty(x => x.Description, x => description)
                 .SetProperty(x => x.Status, x => status)
@@ -78,4 +78,3 @@ namespace TaskFlow.Application.Repositories
         }
     }
 }
-
