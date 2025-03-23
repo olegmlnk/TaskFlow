@@ -7,7 +7,7 @@ namespace TaskFlow.Core.Abstractions
         Task<List<TaskModel>> GetAllTasks();
         Task<Guid> GetTaskById(Guid id);
         Task<Guid> CreateAsync(TaskModel task);
-        Task<Guid> UpdateTask(Guid id, string title, string description, string status, string priority);
+        Task<Guid> UpdateTask(Guid id, string title, string description, string status, string priority, Guid userId);
         Task<Guid> DeleteAsync(Guid id);
     }
 }

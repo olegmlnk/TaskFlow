@@ -67,9 +67,9 @@ namespace TaskFlow.API.Controllers
         }
 
         [HttpPut("UpdateTask")]
-        public async Task<ActionResult<Guid>> UpdateTask(Guid id, string title, string description, string status, string priority)
+        public async Task<ActionResult<Guid>> UpdateTask(Guid id, [FromBody] TaskRequest request)
         {
-            var taskId = await _taskService.UpdateTask(id, title, description, status, priority);
+            var taskId = await _taskService.UpdateTask(id, request.title, request.description, request.status, request.priority);
             return Ok(taskId);
         }
 
@@ -77,7 +77,7 @@ namespace TaskFlow.API.Controllers
         public async Task<ActionResult<Guid>> DeleteTask(Guid id)
         {
             var taskId = await _taskService.DeleteAsync(id);
-            return Ok(taskId);
+            return Ok($"Task with ID {taskId} succesfully deleted.");
         }
     }
 }

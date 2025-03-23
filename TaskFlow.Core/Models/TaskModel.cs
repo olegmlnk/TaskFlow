@@ -5,13 +5,14 @@
         public const int MAX_TITLE_LENGTH = 255;
         public const int MAX_STATUS_LENGTH = 25;
         public const int MAX_PRIORITY_LENGTH = 25;
-        private TaskModel(Guid id, string title, string description, string status, string priority)
+        private TaskModel(Guid id, string title, string description, string status, string priority, Guid userId)
         {
             Id = id;
             Title = title;
             Description = description;
             Status = status;
             Priority = priority;
+            UserId = userId;
         }
 
         public Guid Id { get; }
@@ -19,8 +20,10 @@
         public string Description { get; } = string.Empty;
         public string Status { get; } = string.Empty;
         public string Priority { get; } = string.Empty;
+        public Guid UserId { get; }
+        public Guid User { get; } 
 
-        public static (TaskModel task, string error) Create(Guid id, string title, string description, string status, string priority)
+        public static (TaskModel task, string error) Create(Guid id, string title, string description, string status, string priority, Guid userId)
         {
             var error = string.Empty;
 
@@ -40,7 +43,7 @@
             }
 
 
-            var task = new TaskModel(id, title, description, status, priority);
+            var task = new TaskModel(id, title, description, status, priority, userId);
 
             return (task, error);
         }

@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using TaskFlow.Application.Services;
+using TaskFlow.Core.Abstractions;
 using TaskFlow.DataAccess.Data;
+using TaskFlow.DataAccess.Repositories;
 
 namespace TaskFlow
 {
@@ -23,6 +26,9 @@ namespace TaskFlow
 
             builder.Services.AddDbContext<AppDbContext>(options =>
                     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddScoped<ITaskService, TaskService>();
+            builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 
                 builder.Services.AddControllers();
                 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

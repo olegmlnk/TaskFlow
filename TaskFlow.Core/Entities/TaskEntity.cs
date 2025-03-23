@@ -1,4 +1,6 @@
-﻿namespace TaskFlow.DataAccess.Entities
+﻿using TaskFlow.Core.Models;
+
+namespace TaskFlow.DataAccess.Entities
 {
     public class TaskEntity
     {
@@ -7,5 +9,7 @@
         public string Description { get; set; } = string.Empty;
         public string Status { get; set; } = string.Empty;
         public string Priority { get; set; } = string.Empty;
+        public Guid UserId { get; set; }
+        public User? User { get; set; }
     }
 }

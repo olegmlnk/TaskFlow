@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TaskFlow.Core.Models;
 using TaskFlow.DataAccess.Configurations;
 using TaskFlow.DataAccess.Entities;
 
@@ -12,6 +13,7 @@ namespace TaskFlow.DataAccess.Data
         }
 
         public DbSet<TaskEntity> Tasks { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder configurationBuilder)
         {
