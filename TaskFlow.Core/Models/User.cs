@@ -4,7 +4,7 @@ namespace TaskFlow.Core.Models
 {
     public class User : IdentityUser
     {
-        public User(string firstName, string lastName, ICollection<TaskModel> Tasks)
+        public User(string firstName, string lastName, List<TaskModel> Tasks)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -13,8 +13,20 @@ namespace TaskFlow.Core.Models
 
         public string FirstName { get; }
         public string LastName { get; }
-        public ICollection<TaskModel> Tasks { get; set; }
+        public List<TaskModel> Tasks { get; set; }
 
         public string FullName => $"{FirstName} {LastName}";
+
+        public static (User User, string Error) Create(string firstName, string lastName, List<TaskModel> tasks)
+        {
+            if(string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName))
+            {
+                return (null, "First name and last name cannot be empty");
+            }
+
+            var user = new User(firstName, lastName, tasks);
+
+            return (user, null);
+        }
     }
 }
