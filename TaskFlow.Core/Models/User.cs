@@ -4,29 +4,36 @@ namespace TaskFlow.Core.Models
 {
     public class User : IdentityUser
     {
-        public User(string firstName, string lastName, List<TaskModel> Tasks)
+        public User(string username, string passwordHash, string email, ICollection<TaskModel?> tasks = null)
         {
-            FirstName = firstName;
-            LastName = lastName;
-            Tasks = new List<TaskModel>();
+            UserName = username;
+            PasswordHash = passwordHash;
+            Email = email;  
+            Tasks = tasks ?? new List<TaskModel>();
         }
 
         public string FirstName { get; }
         public string LastName { get; }
-        public List<TaskModel> Tasks { get; set; }
+        public ICollection<TaskModel> Tasks { get; set; } = new List<TaskModel>();
 
         public string FullName => $"{FirstName} {LastName}";
 
-        public static (User User, string Error) Create(string firstName, string lastName, List<TaskModel> tasks)
+        public static (User User, string Error) Create(string username, string passwordHash, string email, ICollection<TaskModel> tasks)
         {
-            if(string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName))
+            if(string.IsNullOrEmpty(username))
             {
-                return (null, "First name and last name cannot be empty");
+                return (null, "Username cannot be empty");
+            }
+            if (string.IsNullOrEmpty(passwordHash))
+            {
+                return (null, "Password cannot be empty");
+            }
+            if (string.IsNullOrEmpty(email))
+            {
+                return (null, "Email cannot be empty");
             }
 
-            var user = new User(firstName, lastName, tasks);
-
-            return (user, null);
+            return (new User(username, passwordHash, email, tasks), string.Empty);
         }
     }
 }
