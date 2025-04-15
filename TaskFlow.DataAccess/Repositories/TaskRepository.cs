@@ -15,7 +15,7 @@ namespace TaskFlow.DataAccess.Repositories
             _context = context;
         }
 
-        public async Task<Guid> CreateAsync(TaskModel task)
+        public async Task<long> CreateAsync(TaskModel task)
         {
             var taskEntity = new TaskEntity
             {
@@ -32,7 +32,7 @@ namespace TaskFlow.DataAccess.Repositories
             return task.Id;
         }
 
-        public async Task<Guid> DeleteAsync(Guid id)
+        public async Task<long> DeleteAsync(long id)
         {
             await _context.Tasks
                 .Where(t => t.Id == id)
@@ -54,7 +54,7 @@ namespace TaskFlow.DataAccess.Repositories
             return tasks;
         }
 
-        public async Task<Guid> GetTaskById(Guid id)
+        public async Task<long> GetTaskById(long id)
         {
             var task = await _context.Tasks.FindAsync(id);
 
@@ -64,7 +64,7 @@ namespace TaskFlow.DataAccess.Repositories
             return task.Id;
         }
 
-        public async Task<Guid> UpdateTask(Guid id, string title, string description, string status, string priority)
+        public async Task<long> UpdateTask(long id, string title, string description, string status, string priority)
         {
             await _context.Tasks
                 .Where(t => t.Id == id)

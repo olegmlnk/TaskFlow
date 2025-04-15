@@ -19,6 +19,7 @@ namespace TaskFlow.DataAccess.Data
         protected override void OnModelCreating(ModelBuilder configurationBuilder)
         {
             configurationBuilder.ApplyConfiguration(new TaskConfiguration());
+            configurationBuilder.ApplyConfiguration(new UserConfiguration());
         }
     }
 }

@@ -34,17 +34,17 @@ namespace TaskFlow.API.Controllers
         }
 
         [HttpGet("GetTaskById")]
-        public async Task<ActionResult<TaskModel>> GetTaskById(Guid id)
+        public async Task<ActionResult<TaskModel>> GetTaskById(long id)
         {
             var task = await _taskService.GetTaskById(id);
             return Ok(task);
         }
 
         [HttpPost("CreateTask")]
-        public async Task<ActionResult<Guid>> CreateTask(TaskRequest request)
+        public async Task<ActionResult<long>> CreateTask(TaskRequest request)
         {
             var (task, error) = TaskModel.Create(
-                Guid.NewGuid(),
+                long.NewGuid(),
                 request.title,
                 request.description,
                 request.status,
@@ -58,7 +58,7 @@ namespace TaskFlow.API.Controllers
 
             var taskId = await _taskService.CreateAsync(task);
 
-            if(taskId == Guid.Empty)
+            if(taskId == long.Empty)
             {
                 return BadRequest("Task was not created");
             }
@@ -67,14 +67,14 @@ namespace TaskFlow.API.Controllers
         }
 
         [HttpPut("UpdateTask")]
-        public async Task<ActionResult<Guid>> UpdateTask(Guid id, [FromBody] TaskRequest request)
+        public async Task<ActionResult<long>> UpdateTask(long id, [FromBody] TaskRequest request)
         {
             var taskId = await _taskService.UpdateTask(id, request.title, request.description, request.status, request.priority);
             return Ok(taskId);
         }
 
         [HttpDelete("DeleteTask")]
-        public async Task<ActionResult<Guid>> DeleteTask(Guid id)
+        public async Task<ActionResult<long>> DeleteTask(long id)
         {
             var taskId = await _taskService.DeleteAsync(id);
             return Ok($"Task with ID {taskId} succesfully deleted.");

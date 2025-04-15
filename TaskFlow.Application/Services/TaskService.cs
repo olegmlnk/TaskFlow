@@ -18,22 +18,22 @@ namespace TaskFlow.Application.Services
             return await _taskRepository.GetAllTasks();
         }
 
-        public async Task<Guid> GetTaskById(Guid id)
+        public async Task<long> GetTaskById(long id)
         {
             return await _taskRepository.GetTaskById(id);
         }
 
-        public async Task<Guid> CreateAsync(TaskModel task)
+        public async Task<long> CreateAsync(TaskModel task)
         {
             return await _taskRepository.CreateAsync(task);
         }
 
-        public async Task<Guid> UpdateTask(Guid id, string title, string description, string status, string priority)
+        public async Task<long> UpdateTask(long id, string title, string description, string status, string priority)
         {
             return await _taskRepository.UpdateTask(id, title, description, status, priority);
         }
 
-        public async Task<Guid> DeleteAsync(Guid id)
+        public async Task<long> DeleteAsync(long id)
         {
             return await _taskRepository.DeleteAsync(id);
         }

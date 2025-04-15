@@ -2,7 +2,7 @@
 {
     public record TaskResponse
     (
-        Guid id,
+        long id,
         string title,
         string description,
         string status,
