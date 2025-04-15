@@ -2,7 +2,7 @@
 
 namespace TaskFlow.Core.Models
 {
-    public class User : IdentityUser
+    public class User : IdentityUser<long>
     {
         public User(string username, string passwordHash, string email, ICollection<TaskModel?> tasks = null)
         {

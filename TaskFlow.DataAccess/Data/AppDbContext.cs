@@ -1,11 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using TaskFlow.Core.Models;
 using TaskFlow.DataAccess.Configurations;
 using TaskFlow.DataAccess.Entities;
 
 namespace TaskFlow.DataAccess.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<UserEntity, IdentityRole<long>, long>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
