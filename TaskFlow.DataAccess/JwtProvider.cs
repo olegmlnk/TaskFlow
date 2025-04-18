@@ -2,6 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using TaskFlow.Core;
 using TaskFlow.Core.Models;
 
 namespace TaskFlow.DataAccess
