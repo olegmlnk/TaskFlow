@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
-using System.Globalization;
 using TaskFlow.Core;
 using TaskFlow.Core.Abstractions;
 using TaskFlow.Core.Models;
 
 namespace TaskFlow.Application.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly IPasswordHasher _passwordHasher;
         private readonly IUserRepository _userRepository;
@@ -36,7 +35,7 @@ namespace TaskFlow.Application.Services
                 username: username,
                 passwordHash: _passwordHasher.GenerateHash(password),
                 email: email,
-                tasks: new List<TaskModel>()
+                tasks: new List<TaskModel>() 
             );
 
             var result = await _userManager.CreateAsync(user, password);

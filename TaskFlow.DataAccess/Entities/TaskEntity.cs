@@ -1,6 +1,4 @@
-﻿using TaskFlow.Core.Models;
-
-namespace TaskFlow.DataAccess.Entities
+﻿namespace TaskFlow.DataAccess.Entities
 {
     public class TaskEntity
     {
